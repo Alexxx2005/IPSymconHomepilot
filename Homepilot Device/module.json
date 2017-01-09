@@ -1,7 +1,7 @@
 {
 	"id": "{19E9190A-F772-4589-8655-5FB219F6C418}",
 	"title": "Homepilot Geräte Instanz",
-	"description": "Homepilot Geräte Instanz, Instanz wir automatisch vom Homepilot I/O ausgelesen und erstellt. Rolladen Steuerung über Homepilot",
+	"description": "Homepilot Geräte Instanz, Instanz wir automatisch vom Homepilot I/O ausgelesen und erstellt. Rollladen Steuerung über Homepilot",
 	"name": "Homepilot",
 	"type": 3,
 	"vendor": "Rademacher",

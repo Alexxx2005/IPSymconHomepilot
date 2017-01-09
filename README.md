@@ -36,17 +36,12 @@ https://github.com/Wolbolar/IPSymconHomepilot
 
 ### b. Einrichtung in IPS
 
-1. Im Objektbaum von IP-Symcon zu Splitter Instanzen wechseln. Hier eine neue Instanz hinzufügen. Als Gerät wählt man den __Homepilot Splitter__ aus.
-
-2. Nun wird ein Homepilot Splitter als auch Homepilot I/O angelegt. 
-
-3. Im Objektbaum von IP-Symcon wird nun eine Kategorie angelegt in der später die Homepilot Geräte angelegt werden sollen.
-
-4. Unter __I/O Instanzen__ wechselt man mittels Doppelklick zum __HomepilotIO__ aktiviert die Verbindung zum Homepilot , trägt die gültige IP-Adresse ein und wählt im Formular die zuvor erstellte  Kategorie aus in der die Rademacher Geräte angelegt werden sollen.
-
-5. Mit __Übernehmen__ bestätigen und im unteren Teil des Formulars zunächst auf __Konfiguration auslesen__ und im Anschluss auf __Setup Homepilot__ klicken.
-
-6. Es werden nun die Geräte in IP-Symcon angelegt. An den Geräte Instanzen ist nichts zusätzlich zu konfigurieren, diese sollten nach dem Anlegen über den Webfront bedienbar sein.
+In IP-Symcon unter Splitter Instanzen wechseln. Hier eine neue Instanz mit _Rechter Mausklick->Objekt hinzufügen->Instanz hinzufügen_ oder _CTRL+1_ erzeugen und als Gerät __*Homepilot Splitter*__ wählen.
+Es wird ein Splitter und der  Homepilot I/O angelegt. Jetzt erstellen wir im Objektbaum von IP-Symcon eine Kategorie unter der später die Homepilot Geräte angelegt werden sollen.
+Nun unter _I/O Instanzen_ zum _**HomepilotIO**_ wechseln und mit Doppelklick öffnen. Unter _IP-Adresse_ ergänzen wir die IP Adresse des Homepilot und wählen im Formular auch die Kategorie aus die wir zuvor für
+die Homepilot Geräte angelegt haben. Mit _Übernehmen_ bestätigen. Nun im unteren Teil des Formulars zunächst auf _Konfiguartion auslesen_ drücken. Wenn die Daten richtig ausgelesen wurden sollte nun die Variabale
+_Homepilot Config_ unterhalb _**HomepilotIO**_ mit Inhalt gefüllt worden sein. Im Anschluss daran auf _Setup Homepilot_ drücken, es werden nun die Geräte in IP-Symcon angelegt. An den Geräte Instanzen ist nichts zusätzlich zu konfigurieren,
+diese sollten nach dem Anlegen über den Webfront bedienbar sein.
 
 ## 4. Funktionsreferenz
 
