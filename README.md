@@ -16,7 +16,7 @@ Modul für IP-Symcon ab Version 4.0 ermöglicht die Kommunikation mit dem Radema
 
 ## 1. Funktionsumfang
 
-Das Modul liest die Konfiguration des Homepilot aus und erstellt in IP-Symcon die vorhandenen Instanzen mit Status und Schaltmöglichkeiten im Webfront.
+Das Modul liest die Konfiguration des Homepilot aus und erstellt automatisch in IP-Symcon die vorhandenen Instanzen mit Schaltmöglichkeit im Webfront.
 
 [Homepilot Rademacher](https://homepilot.rademacher.de/ "Homepilot Rademacher")
 
@@ -31,14 +31,14 @@ Das Modul liest die Konfiguration des Homepilot aus und erstellt in IP-Symcon di
 
  Wir wechseln zu IP-Symcon (min Ver. 4.0) und fügen unter Kerninstanzen über __*Modules*__ -> Hinzufügen das Modul hinzu mit der URL
 ```
-https://github.com/Alexxx2005/IPSymconHomepilot
+https://github.com/Wolbolar/IPSymconHomepilot
 ```	
 
 ### b. Einrichtung in IPS
 
-In IP-Symcon eine neue Instanz mit _Rechter Mausklick->Objekt hinzufügen->Instanz hinzufügen_ oder _CTRL+1_ erzeugen und als Gerät beim Hersteller Rademacher den __*Homepilot Splitter*__ wählen.
+In IP-Symcon unter Splitter Instanzen wechseln. Hier eine neue Instanz mit _Rechter Mausklick->Objekt hinzufügen->Instanz hinzufügen_ oder _CTRL+1_ erzeugen und als Gerät __*Homepilot Splitter*__ wählen.
 Es wird ein Splitter und der  Homepilot I/O angelegt. Jetzt erstellen wir im Objektbaum von IP-Symcon eine Kategorie unter der später die Homepilot Geräte angelegt werden sollen.
-Nun unter _I/O Instanzen_ zum _**HomepilotIO**_ wechseln und mit Doppelklick öffnen. Verbindung HP -> IPS muss Aktiv sein, unter _IP-Adresse_ ergänzen wir die IP Adresse des Homepilot und wählen im Formular auch die Kategorie aus die wir zuvor für
+Nun unter _I/O Instanzen_ zum _**HomepilotIO**_ wechseln und mit Doppelklick öffnen. Unter _IP-Adresse_ ergänzen wir die IP Adresse des Homepilot und wählen im Formular auch die Kategorie aus die wir zuvor für
 die Homepilot Geräte angelegt haben. Mit _Übernehmen_ bestätigen. Nun im unteren Teil des Formulars zunächst auf _Konfiguartion auslesen_ drücken. Wenn die Daten richtig ausgelesen wurden sollte nun die Variabale
 _Homepilot Config_ unterhalb _**HomepilotIO**_ mit Inhalt gefüllt worden sein. Im Anschluss daran auf _Setup Homepilot_ drücken, es werden nun die Geräte in IP-Symcon angelegt. An den Geräte Instanzen ist nichts zusätzlich zu konfigurieren,
 diese sollten nach dem Anlegen über den Webfront bedienbar sein.
