@@ -7,7 +7,7 @@ class HomepilotIO extends IPSModule
     {
 	//Never delete this line!
         parent::Create();
-		
+
 		//These lines are parsed on Symcon Startup or Instance creation
         //You cannot use variables here. Just static values.
 		$this->RegisterPropertyString("Host", "");
@@ -26,26 +26,26 @@ class HomepilotIO extends IPSModule
 	//Never delete this line!
         parent::ApplyChanges();
         $change = false;
-		
+
 		$this->RegisterVariableString("HomepilotConfig", "Homepilot Config", "", 1);
 		IPS_SetHidden($this->GetIDForIdent('HomepilotConfig'), true);
 		$this->ValidateConfiguration();
-	}	
+	}
 
 	/**
-    * Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
-    * Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wiefolgt zur Verfügung gestellt:
+    * Die folgenden Funktionen stehen automatisch zur Verfï¿½gung, wenn das Modul ï¿½ber die "Module Control" eingefï¿½gt wurden.
+    * Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wiefolgt zur Verfï¿½gung gestellt:
     *
     *
     */
-		
 
-	
+
+
 	private function ValidateConfiguration()
 	{
 		$debug = $this->ReadPropertyBoolean('Debug');
 		$change = false;
-		
+
 		if($debug)
 		{
 			$this->RegisterVariableString("CommandOut", "CommandOut", "", 2);
@@ -53,47 +53,47 @@ class HomepilotIO extends IPSModule
 			IPS_SetHidden($this->GetIDForIdent('CommandOut'), true);
 			IPS_SetHidden($this->GetIDForIdent('IOIN'), true);
 		}
-		
+
 		$ip = $this->ReadPropertyString('Host');
 		$username = $this->ReadPropertyString('username');
 		$password = $this->ReadPropertyString('password');
-		
-		//IP prüfen
+
+		//IP prï¿½fen
 		if (!filter_var($ip, FILTER_VALIDATE_IP) === false)
 			{
 				//ok
 			}
 		else
 			{
-			$this->SetStatus(203); //IP Adresse ist ungültig 
+			$this->SetStatus(203); //IP Adresse ist ungï¿½ltig
 			}
-		$change = false;	
-		//User und Passwort prüfen
+		$change = false;
+		//User und Passwort prï¿½fen
 		if ($username == "" || $password == "")
 			{
-				$this->SetStatus(205); //Felder dürfen nicht leer sein
+				$this->SetStatus(205); //Felder dï¿½rfen nicht leer sein
 			}
 		elseif ($username !== "" && $password !== "" && (!filter_var($ip, FILTER_VALIDATE_IP) === false))
 			{
 				$config = $this->getConfig();
 				SetValue($this->GetIDForIdent("HomepilotConfig"), $config);
-				$change = true;	
+				$change = true;
 			}
-		
-		//Import Kategorie für HarmonyHub Geräte
+
+		//Import Kategorie fï¿½r HarmonyHub Gerï¿½te
 		$ImportCategoryID = $this->ReadPropertyInteger('ImportCategoryID');
 		if ( $ImportCategoryID === 0)
 			{
-				// Status Error Kategorie zum Import auswählen
+				// Status Error Kategorie zum Import auswï¿½hlen
 				$this->SetStatus(206);
 			}
-		elseif ( $ImportCategoryID != 0)	
+		elseif ( $ImportCategoryID != 0)
 			{
 				// Status Aktiv
 				$this->SetStatus(102);
 			}
 	}
-	
+
 	protected function getURL($type)
 	{
 		$ip = $this->ReadPropertyString('Host');
@@ -116,15 +116,15 @@ class HomepilotIO extends IPSModule
 			$url = $this->getURL("GetConfig");
 			$responsejson = file_get_contents($url);
 			SetValue($this->GetIDForIdent("HomepilotConfig"), $responsejson);
-		}	
+		}
 		else
 		{
-		$responsejson = GetValue($this->GetIDForIdent("HomepilotConfig"));	
+		$responsejson = GetValue($this->GetIDForIdent("HomepilotConfig"));
 		}
-	
+
 	return $responsejson;
 	}
-	
+
 	//Status abholen
 	public function GetState()
 	{
@@ -134,18 +134,18 @@ class HomepilotIO extends IPSModule
 		$devices = $response->devices;
 		foreach ($devices as $key => $device)
 		{
-			$deviceID = $device->did; //DeviceID des Geräts
-			$position = $device->position; //Position des Geräts
+			$deviceID = $device->did; //DeviceID des Gerï¿½ts
+			$position = $device->position; //Position des Gerï¿½ts
 			$deviceobjid = IPS_GetObjectIDByIdent($deviceID, $CategoryID);
 			$positionid = IPS_GetObjectIDByIdent("HomepilotPosition", $deviceobjid);
 			SetValue($positionid, $position);
-		}	
+		}
 	}
-	
-	//Profile zuweisen und Geräte anlegen
+
+	//Profile zuweisen und Gerï¿½te anlegen
 	public function SetupDevices()
 	{
-		//Konfig prüfen
+		//Konfig prï¿½fen
 		$HomepilotConfig = GetValue($this->GetIDForIdent("HomepilotConfig"));
 		if($HomepilotConfig == "")
 		{
@@ -163,18 +163,18 @@ class HomepilotIO extends IPSModule
 			while($updatetimestamp <= $timestamp);
 			$HomepilotConfig = GetValue($this->GetIDForIdent("HomepilotConfig"));
 		}
-		
+
 		//Homepilot Devices anlegen
 		$this->SetupHomepilotInstance($HomepilotConfig);
 		return $HomepilotConfig;
 	}
-	
+
 	//Installation Homepilot Instanzen
 	protected function SetupHomepilotInstance($HomepilotConfig)
 	{
   		$debug = $this->ReadPropertyBoolean('Debug');
 		$CategoryID = $this->ReadPropertyInteger('ImportCategoryID');
-		
+
 		$response = json_decode($HomepilotConfig);
 		$command = $response->response;
 		$status = $response->status;
@@ -182,11 +182,11 @@ class HomepilotIO extends IPSModule
 		$InsIDList = array();
 		foreach ($devices as $key => $device)
 		{
-			$deviceID = $device->did; //DeviceID des Geräts
+			$deviceID = $device->did; //DeviceID des Gerï¿½ts
 			$name = $device->name; //Bezeichnung Homepilot Device
 			$description = $device->description;
 			$initialized = $device->initialized;
-			$position = $device->position; //Position des Geräts
+			$position = $device->position; //Position des Gerï¿½ts
 			$productName = $device->productName;
 			$version = $device->version;
 			$uid = $device->uid;
@@ -203,18 +203,18 @@ class HomepilotIO extends IPSModule
 			$iconvalMin = $device->iconSet->valMin;
 			$iconnumTiles = $device->iconSet->sprite->numTiles;
 			$iconimageUri = $device->iconSet->sprite->imageUri;
-			$iconset = $device->iconSet->k;	
-			
+			$iconset = $device->iconSet->k;
+
 			$InsID = $this->CreateDeviceInstance($name, $CategoryID, $deviceID, $position, $productName, $version, $uid);
 			$InsIDList[] = $InsID;
-		}		
+		}
 	}
 
-	//Create Homepilot Device Instance 
+	//Create Homepilot Device Instance
 	protected function CreateDeviceInstance(string $name, integer $CategoryID, integer $deviceID, integer $position, string $productName, string $version, string $uid)
 	{
-		
-		//Prüfen ob Instanz schon existiert
+
+		//Prï¿½fen ob Instanz schon existiert
 		$InsID = @IPS_GetObjectIDByIdent($deviceID, $CategoryID);
 		if ($InsID === false)
 			{
@@ -230,13 +230,13 @@ class HomepilotIO extends IPSModule
 				IPS_SetProperty($InsID, "ProductName", $productName); //Produktname setzten.
 				IPS_SetProperty($InsID, "Version", $version); //Version setzten.
 				IPS_SetProperty($InsID, "UID", $uid); //UID setzten.
-				IPS_ApplyChanges($InsID); //Neue Konfiguration übernehmen
+				IPS_ApplyChanges($InsID); //Neue Konfiguration ï¿½bernehmen
 				IPS_Sleep(2000);
-				
+
 				IPS_LogMessage( "Homepilot" , "Homepilot Instanz Name: ".$InstName." erstellt" );
-				
+
 			}
-		
+
 		$positionID = @IPS_GetObjectIDByIdent("HomepilotPosition", $InsID);
 		/*
 		if($positionID == false)
@@ -258,31 +258,31 @@ class HomepilotIO extends IPSModule
 		SetValue($positionID, $position);
 		return $InsID;
 	}
-	
-	
+
+
 ################## Datapoints
- 
-	
-		
-			
+
+
+
+
 	################## DATAPOINT RECEIVE FROM CHILD
-	
+
 
 	public function ForwardData($JSONString)
 	{
-	 
+
 		// Empfangene Daten von der Splitter Instanz
 		$data = json_decode($JSONString);
-		
-	 
-		// Hier würde man den Buffer im Normalfall verarbeiten
-		// z.B. CRC prüfen, in Einzelteile zerlegen
+
+
+		// Hier wï¿½rde man den Buffer im Normalfall verarbeiten
+		// z.B. CRC prï¿½fen, in Einzelteile zerlegen
 		try
 		{
 			// Absenden an Homepilot
-		
+
 			//IPS_LogMessage("Forward Data to Flow", utf8_decode($data->Buffer));
-			
+
 			//aufarbeiten
 			$payload = $data->Buffer;
 			$result = $this->SendCommand ($payload);
@@ -292,17 +292,17 @@ class HomepilotIO extends IPSModule
 			echo $ex->getMessage();
 			echo ' in '.$ex->getFile().' line: '.$ex->getLine().'.';
 		}
-	 
+
 		return $result;
 	}
-		
-	
+
+
 	protected function SendJSON ($data)
 	{
-		// Weiterleitung zu allen Gerät-/Device-Instanzen
+		// Weiterleitung zu allen Gerï¿½t-/Device-Instanzen
 		$this->SendDataToChildren(json_encode(Array("DataID" => "{659EA94E-E5FB-40E8-A274-4675CA398B27}", "Buffer" => $data))); //Homepilot I/O RX GUI
 	}
-	
+
 	protected function SendCommandHomepilot($deviceID, $command, $position)
 	{
 		$debug = $this->ReadPropertyBoolean('Debug');
@@ -314,7 +314,7 @@ class HomepilotIO extends IPSModule
 			SetValue($this->GetIDForIdent("CommandOut"), $commandhomepilot);
 			IPS_LogMessage("Homepilot:", utf8_decode($commandhomepilot)." gesendet.");
 		}
-		
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -327,10 +327,10 @@ class HomepilotIO extends IPSModule
 		curl_close ($ch);
 		return $result;
 	}
-	
+
 	protected function GetPostFields($deviceID, $command, $position)
 	{
-		if($command = 9)
+		if($command == 9)
 		{
 			$commandhomepilot = "cid=".$command."&did=".$deviceID."&goto=".$position."&command=1";
 		}
@@ -338,13 +338,13 @@ class HomepilotIO extends IPSModule
 		{
 			$commandhomepilot = "cid=".$command."&did=".$deviceID."&command=1";
 		}
-		
+
 		return $commandhomepilot;
 	}
-	
+
 	protected function SendCommand ($payload)
 	{
-				
+
 		//Semaphore setzen
         if ($this->lock("TriggerSend"))
         {
@@ -371,12 +371,12 @@ class HomepilotIO extends IPSModule
 			$this->unlock("TriggerSend");
 			//throw new Exception("Can not send to parent",E_USER_NOTICE);
 		  }
-		
+
 		return $result;
-	
+
 	}
-	
-	
+
+
 	################## SEMAPHOREN Helper  - private
 
     private function lock($ident)
@@ -399,7 +399,7 @@ class HomepilotIO extends IPSModule
     {
           IPS_SemaphoreLeave("Homepilot_" . (string) $this->InstanceID . (string) $ident);
     }
-	
+
 	protected function GetIPSVersion ()
 		{
 			$ipsversion = IPS_GetKernelVersion ( );
@@ -420,11 +420,11 @@ class HomepilotIO extends IPSModule
 			}
 			return $ipsversion;
 		}
-		
+
 	//Profile
 	protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits)
 	{
-        
+
         if(!IPS_VariableProfileExists($Name)) {
             IPS_CreateVariableProfile($Name, 1);
         } else {
@@ -432,20 +432,20 @@ class HomepilotIO extends IPSModule
             if($profile['ProfileType'] != 1)
             throw new Exception("Variable profile type does not match for profile ".$Name);
         }
-        
+
         IPS_SetVariableProfileIcon($Name, $Icon);
         IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
 		IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
         IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize); // string $ProfilName, float $Minimalwert, float $Maximalwert, float $Schrittweite
-        
+
     }
-	
+
 	protected function RegisterProfileIntegerAss($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $Stepsize, $Digits, $Associations)
 	{
         if ( sizeof($Associations) === 0 ){
             $MinValue = 0;
             $MaxValue = 0;
-        } 
+        }
 		/*
 		else {
             //undefiened offset
@@ -454,17 +454,17 @@ class HomepilotIO extends IPSModule
         }
         */
         $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $Stepsize, $Digits);
-        
+
 		//boolean IPS_SetVariableProfileAssociation ( string $ProfilName, float $Wert, string $Name, string $Icon, integer $Farbe )
         foreach($Associations as $Association) {
             IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
         }
-        
+
     }
 
 	protected function RegisterProfileFloat($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits)
 	{
-        
+
         if(!IPS_VariableProfileExists($Name)) {
             IPS_CreateVariableProfile($Name, 2);
         } else {
@@ -472,12 +472,12 @@ class HomepilotIO extends IPSModule
             if($profile['ProfileType'] != 2)
             throw new Exception("Variable profile type does not match for profile ".$Name);
         }
-        
+
         IPS_SetVariableProfileIcon($Name, $Icon);
         IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
 		IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
         IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
-        
+
     }
 
 	protected function RegisterProfileFloatAss($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $Stepsize, $Digits, $Associations)
@@ -489,14 +489,14 @@ class HomepilotIO extends IPSModule
             $MinValue = $Associations[0][0];
             $MaxValue = $Associations[sizeof($Associations)-1][0];
         }
-        
+
         $this->RegisterProfileFloat($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $Stepsize, $Digits);
-        
+
 		//boolean IPS_SetVariableProfileAssociation ( string $ProfilName, float $Wert, string $Name, string $Icon, integer $Farbe )
         foreach($Associations as $Association) {
             IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
         }
-        
+
     }
 }
 
